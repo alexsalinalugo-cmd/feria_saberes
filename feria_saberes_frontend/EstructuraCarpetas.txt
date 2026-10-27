@@ -1,0 +1,38 @@
+feria-saberes-frontend/
+├── public/                      <-- Archivos estáticos directos (logos, favicons)
+├── src/
+│   ├── assets/                  <-- Estilos globales e imágenes
+│   │   ├── css/
+│   │   │   └── global.css
+│   │   └── img/
+│   │
+│   ├── components/              <-- Partes reutilizables (Navbar, Footer, Cards)
+│   │   ├── Navbar.js
+│   │   ├── Footer.js
+│   │   └── ProyectoCard.js
+│   │
+│   ├── pages/                   <-- 📁 ¡Acá agrupamos cada módulo/pantalla!
+│   │   ├── landing/
+│   │   │   ├── landing.html     <-- HTML específico de la landing
+│   │   │   ├── landing.js       <-- Lógica exclusiva de la landing
+│   │   │   └── landing.css      <-- Estilos exclusivos de la landing (opcional)
+│   │   ├── detalle/
+│   │   │   ├── detalle.html
+│   │   │   └── detalle.js
+│   │   ├── checkin/
+│   │   │   ├── checkin.html
+│   │   │   └── checkin.js
+│   │   └── admin/
+│   │       ├── admin.html
+│   │       └── admin.js
+│   │
+│   ├── services/                <-- Comunicación con la API de NestJS
+│   │   ├── api.js
+│   │   ├── proyectos.service.js
+│   │   └── checkin.service.js
+│   │
+│   └── utils/                   <-- Funciones auxiliares
+│       └── formatearFecha.js
+│
+├── index.html                   <-- 🏠 Redirección rápida o landing global raíz
+└── package.json

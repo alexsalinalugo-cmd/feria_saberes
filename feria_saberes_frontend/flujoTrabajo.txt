@@ -1,0 +1,215 @@
+====================================================================
+
+           GUÍA DE ARQUITECTURA, FLUJOS Y TRABAJO EN EQUIPO
+
+                     FERIA DE MUESTRES Y SABERES
+
+====================================================================
+
+
+
+1. INTRODUCCIÓN Y ARQUITECTURA
+
+--------------------------------------------------------------------
+
+El proyecto está estructurado en una arquitectura MPA (Multi-Page Application) 
+
+utilizando Vanilla JS (ES Modules), HTML5 y CSS3 nativo. La comunicación con 
+
+el backend (NestJS + MySQL) se realiza mediante peticiones HTTP (fetch) a través 
+
+de una capa centralizada de servicios.
+
+
+
+Estructura del Proyecto:
+
+feria-saberes-frontend/
+
+├── public/                  (Assets estáticos directos)
+
+├── src/
+
+│   ├── assets/              (Estilos globales, fuentes e imágenes)
+
+│   │   ├── css/
+
+│   │   │   └── global.css
+
+│   │   └── img/
+
+│   ├── components/          (Componentes dinámicos HTML/JS reutilizables)
+
+│   │   ├── Navbar.js        (Barra de navegación inyectada dinámicamente)
+
+│   │   ├── Footer.js
+
+│   │   └── ProyectoCard.js  (Plantilla de tarjeta de proyectos)
+
+│   ├── pages/               (Módulos y pantallas de la aplicación)
+
+│   │   ├── landing/         (index.html + landing.js) -> Catálogo principal
+
+│   │   ├── detalle/         (detalle.html + detalle.js) -> Vista por QR de stand
+
+│   │   ├── checkin/         (checkin.html + checkin.js) -> Operador en puerta
+
+│   │   └── admin/           (admin.html + admin.js) -> Gestión de proyectos
+
+│   ├── services/            (Consumo de Endpoints de NestJS)
+
+│   │   ├── api.js           (Configuración base e IP del VPS/Servidor)
+
+│   │   ├── proyectos.service.js
+
+│   │   └── checkin.service.js
+
+│   └── utils/               (Formateadores y validadores auxiliares)
+
+└── index.html               (Punto de entrada principal o redirección)
+
+
+
+
+
+2. FLUJO DE FUNCIONAMIENTO POR CADA VISTA
+
+--------------------------------------------------------------------
+
+
+
+[A] LANDING / CATÁLOGO PRINCIPAL (src/pages/landing/)
+
+    1. Entrada: El visitante escanea el QR general o ingresa a la raíz.
+
+    2. Evento DOMContentLoaded:
+
+       - Se ejecuta `Navbar.js` e inyecta la navegación.
+
+       - `landing.js` invoca a `proyectos.service.js -> obtenerProyectos()`.
+
+    3. NestJS responde con el array de proyectos y sus promedios.
+
+    4. El frontend mapea cada proyecto llamando a `ProyectoCard.js` y pinta las 
+
+       tarjetas en la grilla principal.
+
+    5. Permite filtrar o buscar por orientaciones (Informática / Electricidad).
+
+
+
+[B] VISTA DETALLE Y VOTACIÓN (src/pages/detalle/)
+
+    1. Entrada: El visitante escanea un QR en un stand específico (ej: `detalle.html?id=4`).
+
+    2. `detalle.js` obtiene el parámetro `id` mediante `URLSearchParams`.
+
+    3. Llama a `proyectos.service.js -> obtenerProyectoPorId(4)`.
+
+    4. Renderiza:
+
+       - Título y Descripción.
+
+       - Galería de imágenes.
+
+       - División, Ciclo y Orientación.
+
+       - Lista de Expositores (alumnos responsables).
+
+    5. Formulario de Votación / Valoración:
+
+       - El visitante califica el proyecto.
+
+       - Envía un `POST` a NestJS para actualizar la valoración promedio.
+
+
+
+[C] OPERADOR CHECK-IN EN PUERTA (src/pages/checkin/)
+
+    1. Entrada: Uso exclusivo del operador encargado de la entrada.
+
+    2. Formulario simplificado:
+
+       - Categoría (Familiar, Alumno, Docente, Otro).
+
+       - Cantidad de integrantes del grupo (Ej: 3).
+
+       - Nombre u observación (Opcional).
+
+    3. Al presionar "Registrar Ingreso":
+
+       - `checkin.js` valida los datos y llama a `checkin.service.js -> registrarIngreso()`.
+
+       - Envía `POST` a `/check-in`.
+
+       - El backend registra la fecha/hora actual (`created_at`) y la cantidad.
+
+       - Se limpia el formulario para la siguiente persona sin recargar la página.
+
+
+
+[D] PANEL DE ADMINISTRACIÓN (src/pages/admin/)
+
+    1. Autenticación: Requiere login de usuario/docente (`Usuarios` table).
+
+    2. Gestión de Contenido:
+
+       - Alta, baja y modificación de proyectos.
+
+       - Asignación de divisiones y expositores a cada proyecto.
+
+       - Carga de imágenes principales y secundarias.
+
+    3. Visualización de Estadísticas:
+
+       - Consultas al backend para ver ganadores por Ciclo Básico y Ciclo Superior.
+
+       - Reportes de asistencia total basados en las entradas del Check-In.
+
+
+
+
+
+3. METODOLOGÍA Y FLUJO DE TRABAJO EN EQUIPO
+
+--------------------------------------------------------------------
+
+
+
+1. DIVISIÓN DE TAREAS RECOMENDADA:
+
+   - Equipo Maquetación / Diseño (HTML & CSS):
+
+     * Trabaja directamente en la estructura de los archivos `.html` dentro de `src/pages/` 
+
+       y los estilos CSS. No toca la lógica compleja de JavaScript.
+
+   - Equipo Lógica & Integración (JS & NestJS):
+
+     * Mantiene los archivos en `src/services/` y conecta los eventos del DOM 
+
+       con las peticiones `fetch`.
+
+
+
+2. COMPONENTES REUTILIZABLES:
+
+   - Todo elemento que se repita en más de una vista (Navbar, Footer, Modales) se debe 
+
+     construir dentro de `src/components/` retornado como un string de HTML o elemento 
+
+     DOM e inyectado con JS.
+
+
+
+3. FLUJO DE TRABAJO EN GIT (MONOREPO):
+
+   - Clonar el repositorio.
+
+   - Crear una rama por feature o persona (ej: `git checkout -b feature/checkin-form`).
+
+   - Respetar la exclusión de `node_modules` y `.env` preconfigurados en el `.gitignore`.
+
+   - Realizar commits descriptivos y fusionar a `main`/`develop` mediante Pull Request 
+
+     o revisión conjunta.
