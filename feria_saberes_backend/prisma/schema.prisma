@@ -1,94 +1,83 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "mysql"
 }
 
-enum Orientacion {
-  electricidad
-  informatica
+model checkin {
+  id          Int                @id @default(autoincrement())
+  categoria   checkin_categoria? @default(otro)
+  integrantes Int                @default(1)
+  nombre      String?            @db.VarChar(150)
+  created_at  DateTime?          @default(now()) @db.Timestamp(0)
 }
 
-enum Rol {
-  admin
-  usuario
+model division {
+  id          Int                  @id @default(autoincrement())
+  anio        String               @db.VarChar(50)
+  ciclo       String               @db.VarChar(50)
+  division    String?              @db.VarChar(50)
+  orientacion division_orientacion
+  proyectos   proyectos[]
 }
 
-enum CategoriaCheckIn {
+model expositores {
+  id              Int       @id @default(autoincrement())
+  nombre_completo String    @db.VarChar(150)
+  proyecto_id     Int
+  proyectos       proyectos @relation(fields: [proyecto_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "expositores_ibfk_1")
+
+  @@index([proyecto_id], map: "proyecto_id")
+}
+
+model imagenes_proyectos {
+  id           Int       @id @default(autoincrement())
+  url_imagen   String    @db.VarChar(500)
+  proyecto_id  Int
+  es_principal Boolean?  @default(false)
+  proyectos    proyectos @relation(fields: [proyecto_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "imagenes_proyectos_ibfk_1")
+
+  @@index([proyecto_id], map: "proyecto_id")
+}
+
+model proyectos {
+  id                 Int                  @id @default(autoincrement())
+  titulo             String               @db.VarChar(255)
+  descripcion        String?              @db.Text
+  valoracion         Decimal?             @default(0.00) @db.Decimal(3, 2)
+  division_id        Int
+  expositores        expositores[]
+  imagenes_proyectos imagenes_proyectos[]
+  division           division             @relation(fields: [division_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "proyectos_ibfk_1")
+
+  @@index([division_id], map: "division_id")
+}
+
+model usuarios {
+  id         Int           @id @default(autoincrement())
+  nombre     String        @db.VarChar(100)
+  dni        String        @unique(map: "dni") @db.VarChar(20)
+  contrasena String        @db.VarChar(255)
+  rol        usuarios_rol? @default(usuario)
+}
+
+enum checkin_categoria {
   familiar
   alumno
   docente
   otro
 }
 
-model Division {
-  id          Int         @id @default(autoincrement())
-  anio        String      @db.VarChar(50)
-  ciclo       String      @db.VarChar(50)
-  division    String?     @db.VarChar(50)
-  orientacion Orientacion
-
-  proyectos Proyecto[]
-
-  @@map("Division")
+enum division_orientacion {
+  electricidad
+  informatica
 }
 
-model Proyecto {
-  id          Int     @id @default(autoincrement())
-  titulo      String  @db.VarChar(255)
-  descripcion String? @db.Text
-  valoracion  Decimal @default(0.00) @db.Decimal(3, 2)
-  divisionId  Int     @map("division_id")
-
-  division    Division         @relation(fields: [divisionId], references: [id], onDelete: Cascade)
-  expositores Expositor[]
-  imagenes    ImagenProyecto[]
-
-  @@map("Proyectos")
-}
-
-model Expositor {
-  id             Int    @id @default(autoincrement())
-  nombreCompleto String @map("nombre_completo") @db.VarChar(150)
-  proyectoId     Int    @map("proyecto_id")
-
-  proyecto Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
-
-  @@map("Expositores")
-}
-
-model ImagenProyecto {
-  id          Int     @id @default(autoincrement())
-  urlImagen   String  @map("url_imagen") @db.VarChar(500)
-  proyectoId  Int     @map("proyecto_id")
-  esPrincipal Boolean @default(false) @map("es_principal")
-
-  proyecto Proyecto @relation(fields: [proyectoId], references: [id], onDelete: Cascade)
-
-  @@map("Imagenes_proyectos")
-}
-
-model Usuario {
-  id         Int    @id @default(autoincrement())
-  nombre     String @db.VarChar(100)
-  dni        String @unique @db.VarChar(20)
-  contrasena String @db.VarChar(255)
-  rol        Rol    @default(usuario)
-
-  @@map("Usuarios")
-}
-
-model CheckIn {
-  id          Int              @id @default(autoincrement())
-  categoria   CategoriaCheckIn @default(otro)
-  integrantes Int              @default(1)
-  nombre      String?          @db.VarChar(150)
-  createdAt   DateTime         @default(now()) @map("created_at")
-
-  @@map("CheckIn")
+enum usuarios_rol {
+  admin
+  usuario
 }
