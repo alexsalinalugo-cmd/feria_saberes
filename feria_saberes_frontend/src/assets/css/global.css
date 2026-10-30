@@ -1,0 +1,95 @@
+/* ==========================================
+   GLOBAL STYLES - FERIA DE SABERES
+   ========================================== */
+
+:root {
+  /* Paleta de colores base (Modo Oscuro Moderno) */
+  --bg-main: #0f172a; /* Fondo general de la página */
+  --card-bg: #1e293b; /* Fondo de tarjetas, modales y navbar */
+  --border-color: #334155; /* Bordes sutiles */
+  --text-main: #f8fafc; /* Texto principal (blanco suave) */
+  --text-muted: #94a3b8; /* Texto secundario (gris claro) */
+  --primary: #3b82f6; /* Azul principal (botones y acentos) */
+  --primary-hover: #2563eb; /* Azul de hover */
+
+  /* Estados / Alertas */
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --success-text: #34d399;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-text: #f87171;
+}
+
+/* 1. Reset Global */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Estilos Base del Documento */
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 3. Contenedores y Layouts comunes */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+  flex: 1;
+}
+
+/* 4. Clases de Utilidad Globales */
+.hidden {
+  display: none !important;
+}
+
+/* 5. Alertas Globales (para formularios y modales) */
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.alert.success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-text);
+}
+
+.alert.error {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border: 1px solid var(--error-text);
+}
+
+/* 6. Footer Global */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+  background-color: var(--card-bg);
+}

@@ -1,12 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=./src/pages/checkIn/checkIn.html">
-  <title>Feria de Saberes</title>
-</head>
-<body>
-  <p>Redirigiendo a <a href="./src/pages/checkIn/checkIn.html">Check-in</a>...</p>
-</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Feria de Muestras y Saberes</title>
+    <link rel="stylesheet" href="/src/assets/css/global.css" />
+    <link rel="stylesheet" href="/src/components/navbar.css" />
+  </head>
+  <body>
+    <header>
+      <div id="navbar-placeholder"></div>
+    </header>
 
+    <main>
+      <!-- Acá vamos a inyectar con JS la lista de proyectos -->
+      <section id="contenedor-proyectos" class="grid-proyectos">
+        <p>Cargando proyectos...</p>
+      </section>
+    </main>
+
+    <!-- Importamos el script principal de esta página -->
+    <script type="module" src="/src/pages/landing/landing.js"></script>
+  </body>
+</html>

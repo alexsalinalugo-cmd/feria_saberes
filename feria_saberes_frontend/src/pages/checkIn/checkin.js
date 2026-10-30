@@ -1,15 +1,18 @@
 import {
   registrarIngreso,
   obtenerUltimosIngresos,
-} from "../../services/checkin.service.js";
-
+} from "./../../services/checkInServices";
+import { DefinirNav } from "../../components/navbar.js";
 // Elementos del formulario
 const form = document.querySelector("#checkin-form");
 const categoriaInput = document.querySelector("#categoria");
 const integrantesInput = document.querySelector("#integrantes");
 const nombreInput = document.querySelector("#nombre");
-const message = document.querySelector("#form-message");
 const submitButton = document.querySelector("#submit-button");
+const message = document.querySelector("#form-message");
+const MostrarNavbar = document.getElementById("navbar-placeholder");
+
+MostrarNavbar.innerHTML = DefinirNav();
 
 // Elementos de la Card de Resumen
 const kpiTopCategory = document.querySelector("#kpi-top-category");

@@ -1,7 +1,9 @@
 // El token se guarda acá, en memoria RAM, bien protegido de ataques XSS
-let accessToken = "";
+let accessToken = localStorage.getItem("token");
 
 export const setAccessToken = (token) => {
+  //guardamos de paso en el local para que quede
+  localStorage.setItem("token", token);
   accessToken = token;
 };
 
@@ -12,7 +14,7 @@ export const apiFetch = async (url, options = {}) => {
   const envUrl =
     typeof import.meta !== "undefined" &&
     import.meta.env &&
-    import.meta.env.VITE_API_URL;
+    import.meta.env.development;
   const BASE_URL = (envUrl || "http://localhost:3000").replace(/\/$/, "");
   const endpoint = url.startsWith("/") ? url : `/${url}`;
 
@@ -30,7 +32,7 @@ export const apiFetch = async (url, options = {}) => {
   }
   options.headers = headers;
 
-  // Si tenemos token en RAM, lo incluimos en el header Authorization
+  // Si tenemos token en localstorage, lo incluimos en el header Authorization
   if (accessToken) {
     headers["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -57,8 +59,14 @@ export const apiFetch = async (url, options = {}) => {
       response = await fetch(`${BASE_URL}${endpoint}`, options);
     } catch {
       setAccessToken("");
-      if (typeof window !== "undefined" && window.location.pathname.includes("/admin")) {
-        window.location.href = "/login";
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname.includes(
+          "/feria_saberes_frontend/src/pages/admin/admin.html",
+        )
+      ) {
+        window.location.href =
+          "/feria_saberes_frontend/src/pages/auth/auth.html";
       }
     }
   }
