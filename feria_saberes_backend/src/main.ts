@@ -41,15 +41,10 @@ async function bootstrap() {
   });
   const isProduction = process.env.NODE_ENV === 'production';
   app.enableCors({
-    origin: isProduction
-      ? ['https://dominio.com.ar', 'https://dominio.com.ar']
-      : [
-          'http://localhost:5173',
-          'http://127.0.0.1:5173',
-          'http://192.168.137.1:5173', //  La IP origen que está usando tu Front
-          'http://192.168.0.109:5173',
-        ],
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+    origin: isProduction ? ['https://dominio.com.ar'] : true,
+    credentials: true,
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
   // Importante: Fastify necesita '0.0.0.0' para escuchar conexiones externas
