@@ -6,7 +6,7 @@ import {
 import { AppModule } from './../src/app.module';
 import { PrismaService } from './../src/prisma.service';
 
-describe('AppController (e2e)', () => {
+describe('App (e2e)', () => {
   let app: NestFastifyApplication;
 
   beforeEach(async () => {
@@ -27,13 +27,13 @@ describe('AppController (e2e)', () => {
     await app.getHttpAdapter().getInstance().ready();
   });
 
-  it('/ (GET)', async () => {
+  it('/proyectos (GET)', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/',
+      url: '/proyectos',
     });
     expect(response.statusCode).toBe(200);
-    expect(response.payload).toBe('Hello World!');
+    expect(response.payload).toBe('This action returns all proyectos');
   });
 
   afterEach(async () => {

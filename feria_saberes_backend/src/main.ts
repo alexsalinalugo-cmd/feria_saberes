@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import fastifyCookie from '@fastify/cookie';
@@ -52,8 +53,9 @@ async function bootstrap() {
   });
 
   // Importante: Fastify necesita '0.0.0.0' para escuchar conexiones externas
-  await app.listen(3000, '0.0.0.0');
+  const port = Number(process.env.PORT) || 3000;
+  await app.listen(port, '0.0.0.0');
 
-  console.log(`Servidor de la feria corriendo `);
+  console.log(`Servidor de la feria corriendo en http://localhost:${port}`);
 }
-bootstrap();
+void bootstrap();

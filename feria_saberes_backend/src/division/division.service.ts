@@ -4,7 +4,7 @@ import { UpdateDivisionDto } from './dto/update-division.dto';
 
 @Injectable()
 export class DivisionService {
-  create(createDivisionDto: CreateDivisionDto) {
+  create(_createDivisionDto: CreateDivisionDto) {
     return 'This action adds a new division';
   }
 
@@ -16,7 +16,7 @@ export class DivisionService {
     return `This action returns a #${id} division`;
   }
 
-  update(id: number, updateDivisionDto: UpdateDivisionDto) {
+  update(id: number, _updateDivisionDto: UpdateDivisionDto) {
     return `This action updates a #${id} division`;
   }
 

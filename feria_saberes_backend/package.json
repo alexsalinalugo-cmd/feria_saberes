@@ -25,10 +25,10 @@
     "@fastify/cookie": "^11.1.5",
     "@fastify/multipart": "^10.1.6",
     "@nestjs/common": "^11.0.1",
-    "@nestjs/config": "^12.0.0",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
-    "@nestjs/jwt": "^12.0.1",
-    "@nestjs/mapped-types": "^12.0.0",
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/mapped-types": "^2.1.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-fastify": "^11.2.8",
     "@prisma/adapter-mariadb": "^7.10.1",
@@ -82,6 +82,9 @@
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
