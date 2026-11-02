@@ -35,6 +35,7 @@ function NavbarAdmins() {
                 <li><a href="/src/pages/landing/index.html">Proyectos</a></li>
                 <li><a href="/src/pages/checkin/checkIn.html">Puerta (Check-In)</a></li>
                 <li><a href="/src/pages/admin/admin.html">Administración</a></li>
+                <li><a href="/src/pages/reportes/reportes.html">Reportes</a></li>
                 <li><a href="#" id="btn-logout" class="logout-btn">Cerrar Sesión</a></li>
             </ul>
         </nav>

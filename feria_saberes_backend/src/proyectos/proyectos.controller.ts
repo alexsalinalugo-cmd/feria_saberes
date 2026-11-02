@@ -10,16 +10,17 @@ import {
 import { ProyectosService } from './proyectos.service';
 import { CreateProyectoDto } from './dto/create-proyecto.dto';
 import { UpdateProyectoDto } from './dto/update-proyecto.dto';
+import { Public } from '../auth/jwt-auth.guard';
 
 @Controller('proyectos')
 export class ProyectosController {
   constructor(private readonly proyectosService: ProyectosService) {}
-
+  @Public()
   @Post()
   create(@Body() createProyectoDto: CreateProyectoDto) {
     return this.proyectosService.create(createProyectoDto);
   }
-
+  @Public()
   @Get()
   findAll() {
     return this.proyectosService.findAll();
