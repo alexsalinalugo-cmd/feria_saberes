@@ -5,9 +5,18 @@ USE feria_saberes;
 CREATE TABLE IF NOT EXISTS Division (
     id INT AUTO_INCREMENT PRIMARY KEY,
     anio VARCHAR(50) NOT NULL,              -- Ej: "7mo", "1ro"
-    ciclo VARCHAR(50) NOT NULL,             -- Ej: "Basico", "Superior"
+    ciclo ENUM('Basico', 'Superior') NOT NULL,        -- Ej: "Basico", "Superior"
     division VARCHAR(50) NULL,              -- Ej: "2da", "A" o NULL si no aplica
     orientacion ENUM('electricidad', 'informatica') NOT NULL -- Ej: 'informatica'
+);
+
+-- 2. Tabla: Usuarios (Gestiona los accesos al panel de administración o sistema)
+CREATE TABLE IF NOT EXISTS Usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,           -- Ej: "Profesor Juan"
+    dni VARCHAR(20) UNIQUE NOT NULL,        -- Ej: "35123456"
+    contrasena VARCHAR(255) NOT NULL,       -- Ej: "$2b$10$eI... (Hash bcrypt)"
+    rol ENUM('admin', 'usuario') DEFAULT 'usuario' -- Ej: 'admin'
 );
 
 -- 2. Tabla: Proyectos (Relación N:1 con Division -> Muchos proyectos pertenecen a una división)
@@ -15,9 +24,13 @@ CREATE TABLE IF NOT EXISTS Proyectos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,           -- Ej: "Sistema de Control de Acceso IoT"
     descripcion TEXT NULL,                  -- Ej: "Proyecto basado en ESP32 para gestionar ingresos..."
-    valoracion DECIMAL(3, 2) DEFAULT 0.00,  -- Ej: 4.85 (Promedio de votos)
+    valoracion INT DEFAULT 0,
     division_id INT NOT NULL,               -- FK que apunta a Division.id (Ej: 1)
-    FOREIGN KEY (division_id) REFERENCES Division(id) ON DELETE CASCADE
+    usuario_id INT NULL,                    -- Usuario líder; NULL para proyectos históricos
+    FOREIGN KEY (division_id) REFERENCES Division(id) ON DELETE CASCADE,
+    CONSTRAINT proyectos_ibfk_usuario
+        FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE SET NULL,
+    INDEX proyectos_usuario_id_idx (usuario_id)
 );
 
 -- 3. Tabla: Expositores (Relación N:1 con Proyectos -> Varios alumnos pueden exponer un mismo proyecto)
@@ -37,15 +50,6 @@ CREATE TABLE IF NOT EXISTS Imagenes_proyectos (
     FOREIGN KEY (proyecto_id) REFERENCES Proyectos(id) ON DELETE CASCADE
 );
 
--- 5. Tabla: Usuarios (Gestiona los accesos al panel de administración o sistema)
-CREATE TABLE IF NOT EXISTS Usuarios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,           -- Ej: "Profesor Juan"
-    dni VARCHAR(20) UNIQUE NOT NULL,        -- Ej: "35123456"
-    contrasena VARCHAR(255) NOT NULL,       -- Ej: "$2b$10$eI... (Hash bcrypt)"
-    rol ENUM('admin', 'usuario') DEFAULT 'usuario' -- Ej: 'admin'
-);
-
 -- 6. Tabla: CheckIn (Control de ingreso en la puerta de la escuela)
 CREATE TABLE IF NOT EXISTS CheckIn (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -53,4 +57,12 @@ CREATE TABLE IF NOT EXISTS CheckIn (
     integrantes INT NOT NULL DEFAULT 1,     -- Ej: 4 (Vienen 4 personas juntas)
     nombre VARCHAR(150) NULL,               -- Ej: "Familia Gomez" (Opcional)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Ej: '2026-11-14 10:30:00'
+);
+CREATE TABLE IF NOT EXISTS Resenas_proyectos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    proyecto_id INT NOT NULL,
+    nombre VARCHAR(80) NULL,
+    comentario TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (proyecto_id) REFERENCES Proyectos(id) ON DELETE CASCADE
 );

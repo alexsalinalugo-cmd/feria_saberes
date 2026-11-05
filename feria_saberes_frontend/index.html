@@ -5,6 +5,7 @@
     <title>Feria de Muestras y Saberes</title>
     <link rel="stylesheet" href="/src/assets/css/global.css" />
     <link rel="stylesheet" href="/src/components/navbar.css" />
+    <link rel="stylesheet" href="/src/pages/landing/landing.css" />
   </head>
   <body>
     <header>
@@ -12,13 +13,16 @@
     </header>
 
     <main>
-      <!-- Acá vamos a inyectar con JS la lista de proyectos -->
+      <header class="projects-heading">
+        <p>Feria de Muestras y Saberes</p>
+        <h1>Proyectos participantes</h1>
+        <span>Recorré las propuestas y votá tus favoritas.</span>
+      </header>
       <section id="contenedor-proyectos" class="grid-proyectos">
         <p>Cargando proyectos...</p>
       </section>
     </main>
 
-    <!-- Importamos el script principal de esta página -->
     <script type="module" src="/src/pages/landing/landing.js"></script>
   </body>
 </html>

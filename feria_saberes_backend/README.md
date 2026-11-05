@@ -31,6 +31,27 @@
 $ npm install
 ```
 
+### Project image uploads
+
+The authenticated `POST /proyectos/imagenes` endpoint uploads images to Cloudinary.
+Configure these environment variables in the backend environment before using the
+user project form:
+
+```env
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
+Each image is limited to 10 MB, and a project can contain up to 10 images.
+
+### Project ownership database change
+
+For an existing database, run `migrations/add-project-owner.sql` once. Existing
+projects keep a `NULL` owner until assigned. For a new database, use the updated
+`SQL_FeriaSaberes.sql` instead of running that migration. Then regenerate Prisma
+Client with `npm run prisma:generate`.
+
 ## Compile and run the project
 
 ```bash

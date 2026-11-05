@@ -11,11 +11,9 @@ export const getAccessToken = () => accessToken;
 
 // Esta función reemplaza al 'fetch' nativo en todos tus servicios
 export const apiFetch = async (url, options = {}) => {
-  const envUrl =
-    typeof import.meta !== "undefined" &&
-    import.meta.env &&
-    import.meta.env.development;
-  const BASE_URL = (envUrl || "http://localhost:3000").replace(/\/$/, "");
+  const BASE_URL = (
+    import.meta.env?.VITE_API_URL || "http://localhost:3000"
+  ).replace(/\/$/, "");
   const endpoint = url.startsWith("/") ? url : `/${url}`;
 
   const headers = {
@@ -59,12 +57,11 @@ export const apiFetch = async (url, options = {}) => {
       response = await fetch(`${BASE_URL}${endpoint}`, options);
     } catch {
       setAccessToken("");
-      if (
-        typeof window !== "undefined" &&
-        window.location.pathname.includes(
-          "/feria_saberes_frontend/src/pages/admin/admin.html",
-        )
-      ) {
+      if (typeof window !== "undefined") {
+        const protectedPage =
+          window.location.pathname.includes("/pages/admin/admin.html") ||
+          window.location.pathname.includes("/pages/usuarios/usuario.html");
+        if (!protectedPage) return response;
         window.location.href =
           "/feria_saberes_frontend/src/pages/auth/auth.html";
       }

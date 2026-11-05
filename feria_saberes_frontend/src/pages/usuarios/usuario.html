@@ -1,13 +1,124 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="../../components/navbar.css" />
+    <meta
+      name="description"
+      content="Panel para crear proyectos y consultar tus propuestas de la Feria de Saberes."
+    />
+    <title>Panel de usuario | Feria de Saberes</title>
+    <link rel="stylesheet" href="/src/assets/css/global.css" />
+    <link rel="stylesheet" href="/src/components/navbar.css" />
+    <link rel="stylesheet" href="./usuario.css" />
   </head>
   <body>
-    <div id="navbar-placeholder"></div>
+    <header>
+      <div id="navbar-placeholder"></div>
+    </header>
+    <main class="user-panel">
+      <section class="panel-heading">
+        <p class="panel-eyebrow">Feria de Muestras y Saberes</p>
+        <h1>Tu espacio de proyectos</h1>
+        <p id="welcome-message">Administrá tus propuestas desde un solo lugar.</p>
+      </section>
+
+      <section class="panel-section" aria-labelledby="create-project-heading">
+        <div class="section-heading">
+          <div>
+            <p class="panel-eyebrow">Nueva propuesta</p>
+            <h2 id="create-project-heading">Agregar proyecto</h2>
+          </div>
+        </div>
+        <form id="project-form" class="project-form">
+          <div class="form-field">
+            <label for="project-title">Título del proyecto</label>
+            <input
+              id="project-title"
+              name="titulo"
+              maxlength="255"
+              required
+              placeholder="Ej.: Sistema de riego automático"
+            />
+          </div>
+          <div class="form-field">
+            <label for="project-division">Año, ciclo y división</label>
+            <select id="project-division" name="division_id" required>
+              <option value="">Cargando divisiones...</option>
+            </select>
+          </div>
+          <div class="form-field form-field-wide">
+            <label for="project-description">Descripción</label>
+            <textarea
+              id="project-description"
+              name="descripcion"
+              rows="5"
+              maxlength="5000"
+              placeholder="Contá de qué trata y qué problema busca resolver."
+            ></textarea>
+          </div>
+          <div class="form-field form-field-wide">
+            <label for="project-exhibitors">
+              Expositores <span>(un nombre por línea)</span>
+            </label>
+            <textarea
+              id="project-exhibitors"
+              name="expositores"
+              rows="3"
+              placeholder="Nombre y apellido de cada integrante"
+            ></textarea>
+            <small>Hasta 150 caracteres por nombre.</small>
+          </div>
+          <div class="form-field form-field-wide">
+            <label for="project-images">Imágenes del proyecto</label>
+            <input
+              id="project-images"
+              name="imagenes"
+              type="file"
+              accept="image/*"
+              multiple
+            />
+            <small>
+              Hasta 10 imágenes de 10 MB cada una. Podés agregarlas en varias
+              selecciones; la primera queda como portada.
+            </small>
+            <ul id="image-selection" class="image-selection" aria-live="polite">
+              <li>No seleccionaste imágenes.</li>
+            </ul>
+          </div>
+          <div class="form-actions form-field-wide">
+            <p id="form-feedback" class="form-feedback" role="status" aria-live="polite"></p>
+            <button
+              id="cancel-edit-project"
+              class="secondary-button"
+              type="button"
+              hidden
+            >
+              Cancelar edición
+            </button>
+            <button id="submit-project" class="primary-button" type="submit">
+              Publicar proyecto
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel-section" aria-labelledby="my-projects-heading">
+        <div class="section-heading">
+          <div>
+            <p class="panel-eyebrow">Mis propuestas</p>
+            <h2 id="my-projects-heading">Proyectos que agregaste</h2>
+          </div>
+          <button id="refresh-projects" class="secondary-button" type="button">
+            Actualizar
+          </button>
+        </div>
+        <p id="projects-status" class="projects-status" aria-live="polite">
+          Cargando tus proyectos...
+        </p>
+        <div id="my-projects" class="my-projects"></div>
+      </section>
+    </main>
     <script type="module" src="./usuarios.js"></script>
   </body>
 </html>

@@ -19,7 +19,7 @@ model checkin {
 model division {
   id          Int                  @id @default(autoincrement())
   anio        String               @db.VarChar(50)
-  ciclo       String               @db.VarChar(50)
+  ciclo       division_ciclo
   division    String?              @db.VarChar(50)
   orientacion division_orientacion
   proyectos   proyectos[]
@@ -48,13 +48,17 @@ model proyectos {
   id                 Int                  @id @default(autoincrement())
   titulo             String               @db.VarChar(255)
   descripcion        String?              @db.Text
-  valoracion         Decimal?             @default(0.00) @db.Decimal(3, 2)
+  valoracion         Int?                 @default(0)
   division_id        Int
+  usuario_id         Int?
   expositores        expositores[]
   imagenes_proyectos imagenes_proyectos[]
   division           division             @relation(fields: [division_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "proyectos_ibfk_1")
+  usuario            usuarios?            @relation(fields: [usuario_id], references: [id], onUpdate: NoAction, map: "proyectos_ibfk_usuario")
+  resenas_proyectos  resenas_proyectos[]
 
   @@index([division_id], map: "division_id")
+  @@index([usuario_id])
 }
 
 model usuarios {
@@ -63,6 +67,18 @@ model usuarios {
   dni        String        @unique(map: "dni") @db.VarChar(20)
   contrasena String        @db.VarChar(255)
   rol        usuarios_rol? @default(usuario)
+  proyectos  proyectos[]
+}
+
+model resenas_proyectos {
+  id          Int       @id @default(autoincrement())
+  proyecto_id Int
+  nombre      String?   @db.VarChar(80)
+  comentario  String    @db.Text
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+  proyectos   proyectos @relation(fields: [proyecto_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "resenas_proyectos_ibfk_1")
+
+  @@index([proyecto_id], map: "proyecto_id")
 }
 
 enum checkin_categoria {
@@ -80,4 +96,9 @@ enum division_orientacion {
 enum usuarios_rol {
   admin
   usuario
+}
+
+enum division_ciclo {
+  Basico
+  Superior
 }

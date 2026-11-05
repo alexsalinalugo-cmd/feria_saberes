@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateProyectoDto } from './create-proyecto.dto';
+import { IsNumber } from 'class-validator';
 
-export class UpdateProyectoDto extends PartialType(CreateProyectoDto) {}
+export class UpdateProyectoDto {
+  @IsNumber()
+  proyectoId!: number;
+  @IsNumber()
+  puntuacion!: number;
+}
