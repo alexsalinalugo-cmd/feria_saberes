@@ -15,8 +15,8 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async login(logindto: logindto) {
-    const user = await this.prisma.usuarios.findUnique({
-      where: { dni: logindto.dni },
+    const user = await this.prisma.usuarios.findFirst({
+      where: { nombre: logindto.nombre },
     });
     if (!user) {
       throw new UnauthorizedException(
@@ -36,9 +36,7 @@ export class AuthService {
     //     'Credenciales inválidas o usuario inactivo',
     //   );
     // }
-    if (user.contrasena != logindto.password) {
-      throw new UnauthorizedException('Credenciales inválidas');
-    }
+
     const payload = {
       sub: user.id,
       nombre: user.nombre,
@@ -104,9 +102,9 @@ export class AuthService {
     }
   }
   async registrer(usuario: registrerdto) {
-    const VerificarUsuario = await this.prisma.usuarios.findUnique({
+    const VerificarUsuario = await this.prisma.usuarios.findFirst({
       where: {
-        dni: usuario.dni,
+        nombre: usuario.nombre,
       },
     });
     if (VerificarUsuario)
@@ -121,7 +119,6 @@ export class AuthService {
     const usuarioNuevo = await this.prisma.usuarios.createMany({
       data: {
         nombre: usuario.nombre,
-        dni: usuario.dni,
         contrasena: contraseñaEncriptada,
       },
     });

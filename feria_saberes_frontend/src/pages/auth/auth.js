@@ -9,32 +9,27 @@ if (MostrarNavbar) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("login-form");
-  const dniInput = document.getElementById("dni");
+  const nombreInput = document.getElementById("nombre");
   const passwordInput = document.getElementById("password");
   const btnSubmit = document.getElementById("btn-submit");
   const btnText = btnSubmit.querySelector(".btn-text");
   const spinner = btnSubmit.querySelector(".spinner");
   const alertBox = document.getElementById("auth-alert");
 
-  // Limpiar solo números en el campo DNI
-  dniInput.addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "");
-  });
-
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideAlert();
 
-    const dni = dniInput.value.trim();
+    const nombre = nombreInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (!validateForm(dni, password)) return;
+    if (!validateForm(nombre, password)) return;
 
     setLoading(true);
 
     try {
       //  le pasamos el objeto plano que espera el servicio
-      const data = await AuthServices.Login({ dni, password });
+      const data = await AuthServices.Login({ nombre, password });
 
       showAlert("¡Login exitoso! Redirigiendo...", "success");
 
@@ -69,17 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function validateForm(dni, password) {
+  function validateForm(nombre, password) {
     let isValid = true;
-    document.getElementById("dni-error").textContent = "";
+    document.getElementById("nombre-error").textContent = "";
     document.getElementById("password-error").textContent = "";
 
-    if (!dni) {
-      document.getElementById("dni-error").textContent = "El DNI es requerido";
-      isValid = false;
-    } else if (dni.length < 7 || dni.length > 8) {
-      document.getElementById("dni-error").textContent =
-        "Ingrese un DNI válido (7 u 8 dígitos)";
+    if (!nombre) {
+      document.getElementById("nombre-error").textContent =
+        "El nombre es requerido";
       isValid = false;
     }
 

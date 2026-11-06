@@ -5,7 +5,7 @@ USE feria_saberes;
 CREATE TABLE IF NOT EXISTS Division (
     id INT AUTO_INCREMENT PRIMARY KEY,
     anio VARCHAR(50) NOT NULL,              -- Ej: "7mo", "1ro"
-    ciclo ENUM('Basico', 'Superior') NOT NULL,        -- Ej: "Basico", "Superior"
+    ciclo ENUM('Basico', 'Superior') NOT NULL,           -- Ej: "Basico", "Superior"
     division VARCHAR(50) NULL,              -- Ej: "2da", "A" o NULL si no aplica
     orientacion ENUM('electricidad', 'informatica') NOT NULL -- Ej: 'informatica'
 );
@@ -13,9 +13,8 @@ CREATE TABLE IF NOT EXISTS Division (
 -- 2. Tabla: Usuarios (Gestiona los accesos al panel de administración o sistema)
 CREATE TABLE IF NOT EXISTS Usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,           -- Ej: "Profesor Juan"
-    dni VARCHAR(20) UNIQUE NOT NULL,        -- Ej: "35123456"
-    contrasena VARCHAR(255) NOT NULL,       -- Ej: "$2b$10$eI... (Hash bcrypt)"
+    nombre VARCHAR(100) NOT NULL UNIQUE,           -- Ej: "Profesor Juan"
+    contrasena VARCHAR(255) NOT NULL ,       -- Ej: "$2b$10$eI... (Hash bcrypt)"
     rol ENUM('admin', 'usuario') DEFAULT 'usuario' -- Ej: 'admin'
 );
 

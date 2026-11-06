@@ -5,6 +5,6 @@ export class logindto {
   @IsNotEmpty({ message: 'La contraseña es requerida' })
   password!: string;
   @IsString()
-  @IsNotEmpty({ message: 'el dni es requerida' })
-  dni!: string;
+  @IsNotEmpty({ message: 'el nombre es requerido' })
+  nombre!: string;
 }
