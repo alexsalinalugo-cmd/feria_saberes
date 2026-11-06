@@ -44,8 +44,7 @@ function renderProject(project) {
   article.className = "project-detail";
 
   const images = project.imagenes_proyectos || [];
-  const mainImage =
-    images.find((image) => image.es_principal) || images[0];
+  const mainImage = images.find((image) => image.es_principal) || images[0];
   if (mainImage) {
     const hero = document.createElement("img");
     hero.className = "project-detail-image";
@@ -70,6 +69,7 @@ function renderProject(project) {
 
   const body = document.createElement("div");
   body.className = "project-detail-body";
+
   const division = makeTextElement(
     "p",
     "project-division",
@@ -80,7 +80,8 @@ function renderProject(project) {
       project.division?.ciclo,
     ]
       .filter(Boolean)
-      .join(" · "),
+      .join(" · ")
+      .toUpperCase(),
   );
   const title = makeTextElement("h1", "project-detail-title", project.titulo);
   const description = makeTextElement(
@@ -142,7 +143,7 @@ function createRatingWidget(project) {
   const savedVoteKey = `feria-voto-${project.id}`;
   let savedVote = Number(localStorage.getItem(savedVoteKey)) || 0;
   value.textContent = project.valoracion
-    ? `${project.valoracion} puntos acumulados`
+    ? `${project.valoracion} Puntos Acumulados`
     : "Sin votos todavía";
   message.textContent = savedVote
     ? "Tu voto quedó registrado en este dispositivo"
@@ -166,9 +167,11 @@ function createRatingWidget(project) {
         project.valoracion = result.valoracion;
         savedVote = score;
         localStorage.setItem(savedVoteKey, String(score));
-        value.textContent = `${project.valoracion} puntos acumulados`;
+        value.textContent = `${project.valoracion} Puntos Acumulados`;
         message.textContent = "Tu voto quedó registrado";
-        for (const [index, button] of [...stars.querySelectorAll("button")].entries()) {
+        for (const [index, button] of [
+          ...stars.querySelectorAll("button"),
+        ].entries()) {
           button.textContent = index < savedVote ? "★" : "☆";
           button.setAttribute("aria-pressed", String(index + 1 === savedVote));
         }
@@ -267,7 +270,9 @@ function createReviewItem(review) {
 }
 
 function showError(message) {
-  detailContent.replaceChildren(makeTextElement("p", "detail-status is-error", message));
+  detailContent.replaceChildren(
+    makeTextElement("p", "detail-status is-error", message),
+  );
   detailContent.setAttribute("aria-busy", "false");
 }
 
