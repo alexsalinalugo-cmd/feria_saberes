@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Registro de ingreso y resumen de estadísticas de la Feria de Saberes"
+      content="Registro de ingreso a la Feria de Saberes"
     />
 
-    <title>Registro y Resumen | Feria de Saberes</title>
+    <title>Puerta de Ingreso | Feria de Saberes</title>
 
     <link rel="stylesheet" href="../../assets/css/global.css" />
     <link rel="stylesheet" href="../../assets/css/checkin/checkin.css" />
@@ -21,19 +21,19 @@
       <div id="navbar-placeholder"></div>
     </header>
 
-    <main class="page-container">
-      <!-- Card 1: Formulario de Registro -->
-      <section class="checkin-card">
+    <main class="page-container single-column">
+      <!-- Card: Formulario de Registro de Ingreso -->
+      <section class="checkin-card kiosk-card">
         <div class="card-heading">
-          <h1>Registro</h1>
-          <p>Completá los datos para registrar el ingreso a la feria.</p>
+          <div class="heading-badge">Control de Puerta</div>
+          <h1>Registro de Ingreso</h1>
+          <p>Completá los datos para registrar la entrada de visitantes a la feria.</p>
         </div>
 
         <div class="card-body">
           <form id="checkin-form">
             <div class="form-group">
               <label for="categoria">Categoría de visitante</label>
-
               <select id="categoria" name="categoria" required>
                 <option value="">Seleccioná una categoría</option>
                 <option value="familiar">Familiar</option>
@@ -45,7 +45,6 @@
 
             <div class="form-group">
               <label for="integrantes">Cantidad de integrantes</label>
-
               <input
                 type="number"
                 id="integrantes"
@@ -58,14 +57,13 @@
             </div>
 
             <div class="form-group">
-              <label for="nombre">Nombre del grupo o persona</label>
-
+              <label for="nombre">Nombre del grupo o persona (opcional)</label>
               <input
                 type="text"
                 id="nombre"
                 name="nombre"
                 maxlength="150"
-                placeholder="Ej.: Familia Gómez (opcional)"
+                placeholder="Ej.: Familia Gómez, Prof. Martínez..."
               />
             </div>
 
@@ -80,66 +78,13 @@
           </form>
 
           <div class="info-note">
-            Verificá los datos antes de registrar el ingreso.
-          </div>
-        </div>
-      </section>
-
-      <!-- Card 2: Card de Resumen y Estadísticas -->
-      <section class="summary-card">
-        <div class="card-heading">
-          <h2>Resumen en Vivo</h2>
-          <p>Afluencia y estadísticas generales de la institución.</p>
-        </div>
-
-        <div class="card-body">
-          <!-- Métricas Destacadas: Categoría más concurrida y Horario pico -->
-          <div class="kpi-grid">
-            <div class="kpi-item">
-              <span class="kpi-label">Categoría más concurrida</span>
-              <strong class="kpi-value" id="kpi-top-category">-</strong>
-              <span class="kpi-subtext" id="kpi-top-category-sub"
-                >Sin datos suficientes</span
-              >
-            </div>
-
-            <div class="kpi-item">
-              <span class="kpi-label">Horario con mayor ingreso</span>
-              <strong class="kpi-value" id="kpi-peak-hour">-</strong>
-              <span class="kpi-subtext" id="kpi-peak-hour-sub"
-                >Sin registros aún</span
-              >
-            </div>
-
-            <div class="kpi-item">
-              <span class="kpi-label">Total de asistentes</span>
-              <strong class="kpi-value" id="kpi-total-people">0</strong>
-              <span class="kpi-subtext" id="kpi-total-groups"
-                >0 grupos registrados</span
-              >
-            </div>
+            <span>Verificá los datos antes de confirmar el registro.</span>
           </div>
 
-          <!-- Gráfico Circular / Pastel -->
-          <div class="chart-section">
-            <h3 class="chart-title">Distribución por categoría</h3>
-
-            <div class="chart-wrapper">
-              <div class="donut-chart-container">
-                <svg id="pie-chart-svg" viewBox="0 0 160 160" class="donut-svg">
-                  <!-- Segmentos circulares generados dinámicamente -->
-                </svg>
-                <div class="donut-center">
-                  <span id="donut-total" class="donut-number">0</span>
-                  <span class="donut-label">personas</span>
-                </div>
-              </div>
-
-              <!-- Leyenda con colores y porcentajes -->
-              <div id="chart-legend" class="chart-legend">
-                <!-- Items de leyenda generados dinámicamente -->
-              </div>
-            </div>
+          <div class="reports-link-container">
+            <a href="/src/pages/reportes/reportes.html" class="reports-link">
+              Ir a Estadísticas y Reportes Generales &rarr;
+            </a>
           </div>
         </div>
       </section>

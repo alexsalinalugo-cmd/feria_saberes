@@ -15,7 +15,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
   async login(logindto: logindto) {
-    const user = await this.prisma.usuarios.findFirst({
+    const user = await this.prisma.usuarios.findUnique({
       where: { nombre: logindto.nombre },
     });
     if (!user) {
@@ -102,7 +102,7 @@ export class AuthService {
     }
   }
   async registrer(usuario: registrerdto) {
-    const VerificarUsuario = await this.prisma.usuarios.findFirst({
+    const VerificarUsuario = await this.prisma.usuarios.findUnique({
       where: {
         nombre: usuario.nombre,
       },

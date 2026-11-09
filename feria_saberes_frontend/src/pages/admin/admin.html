@@ -1,15 +1,124 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../components/navbar.css" />
+    <meta
+      name="description"
+      content="Panel Central de Administración - Feria de Saberes"
+    />
+
+    <title>Panel de Administración | Feria de Saberes</title>
 
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="navbar-placeholder"></div>
+    <link rel="stylesheet" href="../../components/navbar.css" />
+    <link rel="stylesheet" href="./admin.css" />
     <script type="module" src="./admin.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div id="navbar-placeholder"></div>
+    </header>
+
+    <main class="admin-container">
+      <section class="admin-header">
+        <span class="admin-badge">Área de Gestión</span>
+        <h1>Panel de Administración</h1>
+        <p>Centro de control y supervisión general de la Feria de Saberes.</p>
+      </section>
+
+      <!-- Resumen Rápido -->
+      <section class="quick-stats-card">
+        <h3>Métricas en Tiempo Real</h3>
+        <div class="stats-row">
+          <div class="stat-box">
+            <span class="stat-label">Asistentes en Puerta</span>
+            <strong id="stat-asistentes" class="stat-val">-</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Proyectos Registrados</span>
+            <strong id="stat-proyectos" class="stat-val">-</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Proyecto Más Votado</span>
+            <strong id="stat-top-votos" class="stat-val">-</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Alumnos / Expositores</span>
+            <strong id="stat-expositores" class="stat-val">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Accesos a Módulos -->
+      <section class="modules-grid">
+        <a href="/src/pages/reportes/reportes.html" class="module-card featured">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+              </svg>
+            </div>
+            <h2>Reportes y Estadísticas</h2>
+            <p>
+              Analítica completa: afluencia de visitantes (Check-in), gráfico circular por categoría,
+              horario pico, ranking de proyectos y métricas escolares.
+            </p>
+          </div>
+          <span class="card-link-text">Ver Dashboard de Reportes &rarr;</span>
+        </a>
+
+        <a href="/src/pages/checkIn/checkIn.html" class="module-card">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/>
+              </svg>
+            </div>
+            <h2>Puerta (Check-In)</h2>
+            <p>
+              Terminal de recepción para registrar el ingreso de familias, alumnos,
+              docentes y público general a la institución.
+            </p>
+          </div>
+          <span class="card-link-text">Abrir Kiosco de Ingreso &rarr;</span>
+        </a>
+
+        <a href="/src/pages/usuarios/usuario.html" class="module-card">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h2>Gestión de Usuarios</h2>
+            <p>
+              Administración de cuentas de estudiantes y administradores, asignación
+              de roles y permisos de acceso.
+            </p>
+          </div>
+          <span class="card-link-text">Gestionar Usuarios &rarr;</span>
+        </a>
+
+        <a href="/index.html" class="module-card">
+          <div class="card-top">
+            <div class="card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+              </svg>
+            </div>
+            <h2>Catálogo de Proyectos</h2>
+            <p>
+              Exploración de proyectos técnicos por especialidad (Informática y Electricidad)
+              y ciclos de estudio.
+            </p>
+          </div>
+          <span class="card-link-text">Explorar Proyectos &rarr;</span>
+        </a>
+      </section>
+    </main>
+
+    <footer class="footer">Feria de Saberes · Conocimiento que nos une</footer>
   </body>
 </html>

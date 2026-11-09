@@ -1,15 +1,269 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../components/navbar.css" />
+    <meta
+      name="description"
+      content="Reportes consolidados y métricas en vivo de la Feria de Saberes"
+    />
+
+    <title>Reportes y Estadísticas | Feria de Saberes</title>
 
     <link rel="stylesheet" href="../../assets/css/global.css" />
-    <title>Reportes</title>
-  </head>
-  <body>
-    <div id="navbar-placeholder"></div>
+    <link rel="stylesheet" href="../../components/navbar.css" />
+    <link rel="stylesheet" href="./reportes.css" />
     <script type="module" src="./reportes.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div id="navbar-placeholder"></div>
+    </header>
+
+    <main class="reportes-container">
+      <!-- Encabezado de la página -->
+      <section class="reportes-header">
+        <div class="header-titles">
+          <span class="header-badge">Panel Administrativo</span>
+          <h1>Reportes y Estadísticas Generales</h1>
+          <p>
+            Métricas consolidadas de la institución: afluencia de visitantes en puerta,
+            proyectos destacados y participación escolar.
+          </p>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-refresh" class="btn-refresh" type="button">
+            <svg class="refresh-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>Actualizar datos</span>
+          </button>
+          <span id="last-updated" class="last-updated">Cargando...</span>
+        </div>
+      </section>
+
+      <!-- Mensajes de estado / alerta -->
+      <div id="status-message" class="status-message" role="status"></div>
+
+      <!-- Tarjetas de Métricas Globales (KPIs Principales) -->
+      <section class="kpi-banner">
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-title">Total Asistentes</span>
+            <strong id="kpi-total-asistentes" class="kpi-number">-</strong>
+            <span id="kpi-total-grupos" class="kpi-caption">Calculando...</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-title">Proyectos Registrados</span>
+            <strong id="kpi-total-proyectos" class="kpi-number">-</strong>
+            <span id="kpi-proyectos-sub" class="kpi-caption">En exposición</span>
+          </div>
+        </div>
+
+        <div class="kpi-card highlight-card">
+          <div class="kpi-icon highlight-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#d97706" stroke="none">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-title">Proyecto Más Votado</span>
+            <strong id="kpi-top-proyecto-titulo" class="kpi-number truncate">-</strong>
+            <span id="kpi-top-proyecto-votos" class="kpi-caption">0 votos</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 3 3 6 3s6-1 6-3v-5"/>
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-title">Expositores / Alumnos</span>
+            <strong id="kpi-total-expositores" class="kpi-number">-</strong>
+            <span class="kpi-caption">Presentando proyectos</span>
+          </div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="kpi-content">
+            <span class="kpi-title">Reseñas Registradas</span>
+            <strong id="kpi-total-resenas" class="kpi-number">-</strong>
+            <span class="kpi-caption">Comentarios del público</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bloque de 2 Columnas: Control de Ingreso (Check-in) vs Proyectos -->
+      <section class="dashboard-grid">
+        <!-- Tarjeta 1: Afluencia de Visitantes (Check-in en Vivo) -->
+        <article class="dashboard-card">
+          <div class="card-title-bar">
+            <h2>Afluencia y Registro de Puerta (Check-In)</h2>
+            <a href="/src/pages/checkIn/checkIn.html" class="sublink">Ir a Puerta &rarr;</a>
+          </div>
+
+          <div class="card-inner">
+            <!-- Métricas destacadas de puerta -->
+            <div class="checkin-kpis">
+              <div class="sub-kpi">
+                <span class="sub-kpi-label">Categoría más concurrida</span>
+                <strong id="checkin-top-cat" class="sub-kpi-val">-</strong>
+                <span id="checkin-top-cat-sub" class="sub-kpi-detail">Sin datos</span>
+              </div>
+
+              <div class="sub-kpi">
+                <span class="sub-kpi-label">Horario pico de entrada</span>
+                <strong id="checkin-peak-hour" class="sub-kpi-val">-</strong>
+                <span id="checkin-peak-hour-sub" class="sub-kpi-detail">Sin datos</span>
+              </div>
+            </div>
+
+            <!-- Gráfico Donut / Pastel Circular -->
+            <div class="chart-box">
+              <h3 class="chart-heading">Distribución por Categoría de Visitante</h3>
+
+              <div class="chart-content">
+                <div class="donut-chart-container">
+                  <svg id="pie-chart-svg" viewBox="0 0 160 160" class="donut-svg">
+                    <circle cx="80" cy="80" r="58" fill="transparent" stroke="#e2e8f0" stroke-width="18" />
+                  </svg>
+                  <div class="donut-center">
+                    <span id="donut-total" class="donut-number">0</span>
+                    <span class="donut-label">personas</span>
+                  </div>
+                </div>
+
+                <div id="chart-legend" class="chart-legend">
+                  <!-- Segmentos generados dinámicamente -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tarjeta 2: Estadísticas de Proyectos Escolares -->
+        <article class="dashboard-card">
+          <div class="card-title-bar">
+            <h2>Distribución de Proyectos</h2>
+            <a href="/index.html" class="sublink">Ver Catálogo &rarr;</a>
+          </div>
+
+          <div class="card-inner">
+            <!-- Destacado del Proyecto Estrella -->
+            <div id="top-project-spotlight" class="spotlight-box">
+              <div class="spotlight-tag">Proyecto Líder en Valoración</div>
+              <h3 id="spotlight-title" class="spotlight-title">Cargando...</h3>
+              <p id="spotlight-division" class="spotlight-desc">-</p>
+              <div class="spotlight-footer">
+                <span id="spotlight-votes" class="badge-votes">0 votos</span>
+                <span id="spotlight-expositores" class="spotlight-exp">Expositores: -</span>
+              </div>
+            </div>
+
+            <!-- Barras de Progresos por Especialidad / Orientación -->
+            <div class="progress-section">
+              <h3 class="chart-heading">Proyectos por Orientación Técnica</h3>
+
+              <div class="progress-item">
+                <div class="progress-label-row">
+                  <span>Informática</span>
+                  <strong id="bar-info-val">0 (0%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="bar-info-fill" class="progress-bar-fill fill-info" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-label-row">
+                  <span>Electricidad</span>
+                  <strong id="bar-elec-val">0 (0%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="bar-elec-fill" class="progress-bar-fill fill-elec" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Barras por Ciclo Educativo -->
+            <div class="progress-section">
+              <h3 class="chart-heading">Proyectos por Ciclo Educativo</h3>
+
+              <div class="progress-item">
+                <div class="progress-label-row">
+                  <span>Ciclo Básico (1° a 3° año)</span>
+                  <strong id="bar-basico-val">0 (0%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="bar-basico-fill" class="progress-bar-fill fill-basico" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-label-row">
+                  <span>Ciclo Superior (4° a 7° año)</span>
+                  <strong id="bar-superior-val">0 (0%)</strong>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="bar-superior-fill" class="progress-bar-fill fill-superior" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Tabla / Ranking de los Proyectos Más Valorados -->
+      <section class="dashboard-card ranking-card">
+        <div class="card-title-bar">
+          <h2>Ranking de Proyectos Más Votados</h2>
+          <span class="table-legend">Top 5 por valoración del público</span>
+        </div>
+
+        <div class="card-inner table-responsive">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Proyecto</th>
+                <th>División / Especialidad</th>
+                <th>Expositores</th>
+                <th>Comentarios</th>
+                <th style="text-align: right;">Votos</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-table-body">
+              <tr>
+                <td colspan="6" class="table-empty">Cargando ranking de proyectos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">Feria de Saberes · Conocimiento que nos une</footer>
   </body>
 </html>

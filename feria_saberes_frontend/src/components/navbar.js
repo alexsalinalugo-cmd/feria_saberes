@@ -29,11 +29,11 @@ function NavbarAdmins() {
   return `
         <nav class="navbar">
             <div class="navbar-brand">
-                <a href="/src/pages/landing/index.html">Feria de Saberes</a>
+                <a href="/index.html">Feria de Saberes</a>
             </div>
             <ul class="navbar-links">
-                <li><a href="/src/pages/landing/index.html">Proyectos</a></li>
-                <li><a href="/src/pages/checkin/checkIn.html">Puerta (Check-In)</a></li>
+                <li><a href="/index.html">Proyectos</a></li>
+                <li><a href="/src/pages/checkIn/checkIn.html">Puerta (Check-In)</a></li>
                 <li><a href="/src/pages/admin/admin.html">Administración</a></li>
                 <li><a href="/src/pages/reportes/reportes.html">Reportes</a></li>
                 <li><a href="#" id="btn-logout" class="logout-btn">Cerrar Sesión</a></li>
@@ -46,7 +46,7 @@ function NavbarUser() {
   return `
         <nav class="navbar">
             <div class="navbar-brand">
-                <a href="/src/pages/landing/index.html">Feria de Saberes</a>
+                <a href="/index.html">Feria de Saberes</a>
             </div>
             <ul class="navbar-links">
                 <li><a href="/src/pages/usuarios/usuario.html">Panel Usuario</a></li>
@@ -60,7 +60,7 @@ function Navbar() {
   return `
         <nav class="navbar">
             <div class="navbar-brand">
-                <a href="/src/pages/landing/index.html">Feria de Saberes</a>
+                <a href="/index.html">Feria de Saberes</a>
             </div>
             <ul class="navbar-links">
                 <li><a href="/src/pages/auth/auth.html">Logueo</a></li>
