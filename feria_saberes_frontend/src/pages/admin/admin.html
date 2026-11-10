@@ -3,122 +3,246 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Panel Central de Administración - Feria de Saberes"
-    />
-
-    <title>Panel de Administración | Feria de Saberes</title>
-
-    <link rel="stylesheet" href="../../assets/css/global.css" />
     <link rel="stylesheet" href="../../components/navbar.css" />
     <link rel="stylesheet" href="./admin.css" />
-    <script type="module" src="./admin.js"></script>
+    <link rel="stylesheet" href="../../assets/css/global.css" />
+    <title>Administración | Feria de saberes</title>
   </head>
-
   <body>
-    <header>
-      <div id="navbar-placeholder"></div>
-    </header>
-
+    <div id="navbar-placeholder"></div>
     <main class="admin-container">
-      <section class="admin-header">
-        <span class="admin-badge">Área de Gestión</span>
+      <section class="admin-heading">
+        <p class="admin-eyebrow">Feria de Saberes</p>
         <h1>Panel de Administración</h1>
-        <p>Centro de control y supervisión general de la Feria de Saberes.</p>
+        <p>
+          Gestioná los Usuarios, Las Divisiones y los Proyectos de la
+          plataforma.
+        </p>
       </section>
 
-      <!-- Resumen Rápido -->
-      <section class="quick-stats-card">
-        <h3>Métricas en Tiempo Real</h3>
-        <div class="stats-row">
-          <div class="stat-box">
-            <span class="stat-label">Asistentes en Puerta</span>
-            <strong id="stat-asistentes" class="stat-val">-</strong>
+      <section class="admin-section" id="seccion-usuarios">
+        <div class="admin-section-heading">
+          <div>
+            <p class="admin-eyebrow">Administración</p>
+            <h2>Gestión de Usuarios</h2>
+            <p>Consulta, Registrá y Modificá los Usuarios de la plataforma.</p>
           </div>
-          <div class="stat-box">
-            <span class="stat-label">Proyectos Registrados</span>
-            <strong id="stat-proyectos" class="stat-val">-</strong>
+
+          <button id="btn-nuevo-usuario" class="admin-button" type="button">
+            + Nuevo Usuario
+          </button>
+
+          <form id="form-usuario" class="admin-form hidden">
+            <h3>Registrar Nuevo Usuario</h3>
+
+            <div class="admin-field">
+              <label for="usuario-nombre">Nombre</label>
+              <input
+                type="text"
+                id="usuario-nombre"
+                name="nombre"
+                required
+                placeholder="Ingresa el nombre"
+              />
+            </div>
+
+            <div class="admin-field">
+              <label for="usuario-contrasena">Contraseña</label>
+              <input
+                type="password"
+                id="usuario-contrasena"
+                name="contrasena"
+                required
+                placeholder="Ingresa una Contraseña"
+              />
+            </div>
+
+            <div class="admin-field">
+              <label for="usuario-rol">Rol</label>
+              <select id="usuario-rol" name="rol" required>
+                <option value="usuario">Usuario</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+
+            <p id="usuario-feedback" aria-live="polite"></p>
+
+            <div class="admin-actions">
+              <button type="submit" class="admin-button">
+                Guardar Usuario
+              </button>
+              <button
+                type="button"
+                id="btn-cancelar-usuario"
+                class="secondary-button"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <p id="usuarios-status" aria-live="polite">
+          Los Usuarios apareceran aqui.
+        </p>
+
+        <div id="lista-usuarios" class="admin-list"></div>
+      </section>
+
+      <section class="admin-section" id="seccion-divisiones">
+        <div class="admin-section-heading">
+          <div>
+            <p class="admin-eyebrow">Administración</p>
+            <h2>Gestión de divisiones</h2>
+            <p>
+              Consultá, registrá y modificá las divisiones de la plataforma.
+            </p>
           </div>
-          <div class="stat-box">
-            <span class="stat-label">Proyecto Más Votado</span>
-            <strong id="stat-top-votos" class="stat-val">-</strong>
+
+          <button id="btn-nueva-division" class="admin-button" type="button">
+            + Nueva división
+          </button>
+        </div>
+
+        <form id="form-division" class="admin-form hidden">
+          <h3>Registrar nueva División</h3>
+
+          <div class="admin-field">
+            <label for="division-anio">Año</label>
+            <select id="division-anio" required>
+              <option value="">Selecciona un Año</option>
+              <option value="1ro">1ro</option>
+              <option value="2do">2do</option>
+              <option value="3ro">3ro</option>
+              <option value="4to">4to</option>
+              <option value="5to">5to</option>
+              <option value="6to">6to</option>
+              <option value="7mo">7mo</option>
+            </select>
           </div>
-          <div class="stat-box">
-            <span class="stat-label">Alumnos / Expositores</span>
-            <strong id="stat-expositores" class="stat-val">-</strong>
+
+          <div class="admin-field">
+            <label for="division-ciclo">Ciclo</label>
+            <select id="division-ciclo" required>
+              <option value="">Selecciona un Ciclo</option>
+              <option value="Basico">Básico</option>
+              <option value="Superior">Superior</option>
+            </select>
+          </div>
+          <div class="admin-field">
+            <label for="division-nombre">División</label>
+            <input
+              type="text"
+              id="division-nombre"
+              placeholder="Ej.: 1ro primera"
+            />
+          </div>
+          <div class="admin-field">
+            <label for="division-orientacion">Orientación</label>
+            <select id="division-orientacion" required>
+              <option value="">Selecciona una Orientación</option>
+              <option value="Electricidad">Electricidad</option>
+              <option value="Informatica">Informática</option>
+            </select>
+          </div>
+
+          <p id="division-feedback" aria-live="polite"></p>
+
+          <div class="admin-actions">
+            <button type="submit" class="admin-button">Guardar división</button>
+
+            <button
+              type="button"
+              id="btn-cancelar-division"
+              class="secondary-button"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+
+        <p id="divisiones-status" aria-live="polite">
+          Las divisiones aparecerán aquí.
+        </p>
+
+        <div id="lista-divisiones" class="admin-list"></div>
+      </section>
+
+      <section class="admin-section" id="seccion-proyectos">
+        <div class="admin-section-heading">
+          <div>
+            <p class="admin-eyebrow">Administración</p>
+            <h2>Gestión de Proyectos</h2>
+            <p>
+              Consultá, Modificá, Da de baja y Re-activá los Proyectos de la
+              Plataforma.
+            </p>
           </div>
         </div>
-      </section>
 
-      <!-- Accesos a Módulos -->
-      <section class="modules-grid">
-        <a href="/src/pages/reportes/reportes.html" class="module-card featured">
-          <div class="card-top">
-            <div class="card-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
-              </svg>
-            </div>
-            <h2>Reportes y Estadísticas</h2>
-            <p>
-              Analítica completa: afluencia de visitantes (Check-in), gráfico circular por categoría,
-              horario pico, ranking de proyectos y métricas escolares.
-            </p>
-          </div>
-          <span class="card-link-text">Ver Dashboard de Reportes &rarr;</span>
-        </a>
+        <form id="form-proyecto" class="admin-form hidden">
+          <h3>Editar proyecto</h3>
 
-        <a href="/src/pages/checkIn/checkIn.html" class="module-card">
-          <div class="card-top">
-            <div class="card-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/>
-              </svg>
-            </div>
-            <h2>Puerta (Check-In)</h2>
-            <p>
-              Terminal de recepción para registrar el ingreso de familias, alumnos,
-              docentes y público general a la institución.
-            </p>
+          <div class="admin-field">
+            <label for="proyecto-titulo">Título</label>
+            <input type="text" id="proyecto-titulo" required />
           </div>
-          <span class="card-link-text">Abrir Kiosco de Ingreso &rarr;</span>
-        </a>
 
-        <a href="/src/pages/usuarios/usuario.html" class="module-card">
-          <div class="card-top">
-            <div class="card-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-              </svg>
-            </div>
-            <h2>Gestión de Usuarios</h2>
-            <p>
-              Administración de cuentas de estudiantes y administradores, asignación
-              de roles y permisos de acceso.
-            </p>
+          <div class="admin-field">
+            <label for="proyecto-descripcion">Descripción</label>
+            <textarea id="proyecto-descripcion" rows="4"></textarea>
           </div>
-          <span class="card-link-text">Gestionar Usuarios &rarr;</span>
-        </a>
 
-        <a href="/index.html" class="module-card">
-          <div class="card-top">
-            <div class="card-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
-              </svg>
-            </div>
-            <h2>Catálogo de Proyectos</h2>
-            <p>
-              Exploración de proyectos técnicos por especialidad (Informática y Electricidad)
-              y ciclos de estudio.
-            </p>
+          <div class="admin-field">
+            <label for="proyecto-valoracion">Valoración</label>
+            <input type="number" id="proyecto-valoracion" />
           </div>
-          <span class="card-link-text">Explorar Proyectos &rarr;</span>
-        </a>
+
+          <div class="admin-field">
+            <label for="proyecto-division">ID de División</label>
+            <input type="number" id="proyecto-division" min="1" required />
+          </div>
+
+          <div class="admin-field">
+            <label for="proyecto-usuario">ID de Usuario Responsable</label>
+            <input type="number" id="proyecto-usuario" min="1" />
+          </div>
+
+          <p id="proyecto-feedback" aria-live="polite"></p>
+
+          <div class="admin-actions">
+            <button type="submit" class="admin-button">Guardar Cambios</button>
+            <button
+              type="button"
+              id="btn-cancelar-proyecto"
+              class="secondary-button"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+        <div class="admin-section-heading">
+          <h3>Proyectos Activos</h3>
+        </div>
+
+        <p id="proyectos-status" aria-live="polite">
+          Los proyectos aparecerán aquí.
+        </p>
+
+        <div id="lista-proyectos" class="admin-list"></div>
+
+        <div class="admin-section-heading">
+          <h3>Proyectos Dados de Baja</h3>
+          <button id="btn-ver-bajas" class="secondary-button" type="button">
+            Ver Proyectos Dados de Baja
+          </button>
+        </div>
+
+        <p id="proyectos-baja-status" aria-live="polite"></p>
+
+        <div id="lista-proyectos-baja" class="admin-list"></div>
       </section>
     </main>
-
-    <footer class="footer">Feria de Saberes · Conocimiento que nos une</footer>
+    <script type="module" src="./admin.js"></script>
   </body>
 </html>

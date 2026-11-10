@@ -3,10 +3,12 @@
    ========================================== */
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  padding: 1rem 2rem;
+  gap: 1rem;
+  padding: 0.65rem clamp(1rem, 4vw, 2.5rem);
+  font-family: Georgia, "Times New Roman", serif;
   background-color: var(--card-bg, #1e293b);
   border-bottom: 1px solid var(--border-color, #334155);
   position: sticky;
@@ -17,21 +19,53 @@
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.navbar-brand a {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-main, #f8fafc);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  letter-spacing: -0.025em;
+.navbar-brand {
+  grid-column: 1;
+  justify-self: start;
+  min-width: 0;
 }
 
-.navbar-brand a:hover {
-  color: var(--primary, #3b82f6);
+.navbar-brand a {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-brand img {
+  display: block;
+  width: auto;
+  height: 64px;
+  max-width: min(20vw, 140px);
+  object-fit: contain;
+}
+
+.navbar-title {
+  grid-column: 2;
+  display: none;
+  margin: 0;
+  color: var(--text-main, #f8fafc);
+  font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.navbar-brand a:hover img {
+  opacity: 0.85;
+}
+
+.navbar-brand a:focus-visible,
+.navbar-links a:focus-visible,
+.navbar-toggle:focus-visible {
+  outline: 2px solid var(--primary, #3b82f6);
+  outline-offset: 4px;
 }
 
 /* Lista de Enlaces */
 .navbar-links {
+  grid-column: 3;
+  justify-self: end;
   list-style: none;
   display: flex;
   gap: 1rem;
@@ -48,6 +82,11 @@
   padding: 0.5rem 0.85rem;
   border-radius: 8px;
   transition: all 0.2s ease-in-out;
+}
+
+.navbar-links li a:focus-visible {
+  color: var(--text-main, #f8fafc);
+  background-color: rgba(59, 130, 246, 0.1);
 }
 
 .navbar-links li a:hover {
@@ -69,22 +108,44 @@
 
 /* Botón Hamburguesa (Oculto en Desktop por defecto) */
 .navbar-toggle {
+  grid-column: 3;
+  justify-self: end;
   display: none;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.65rem;
   flex-direction: column;
   gap: 5px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-toggle:hover {
+  background-color: rgba(148, 163, 184, 0.12);
 }
 
 .navbar-toggle span {
   display: block;
-  width: 24px;
+  width: 22px;
   height: 2px;
   background-color: var(--text-main, #f8fafc);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.navbar-toggle[aria-expanded="true"] span:first-child {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggle[aria-expanded="true"] span:last-child {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ==========================================
@@ -92,44 +153,68 @@
    ========================================== */
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem 1.25rem;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-brand img {
+    height: 60px;
+    max-width: 64px;
+  }
+
+  .navbar-title {
+    grid-column: 2;
+    display: block;
+    font-size: clamp(1rem, 4.5vw, 1.3rem);
   }
 
   /* Mostrar el botón hamburguesa en mobile */
   .navbar-toggle {
     display: flex;
+    grid-column: 3;
   }
 
   /* Ocultar la lista de links por defecto y prepararla para despliegue */
   .navbar-links {
+    grid-column: auto;
     position: absolute;
     top: 100%;
-    left: 0;
-    width: 100%;
+    left: 0.75rem;
+    right: 0.75rem;
+    justify-self: auto;
     background-color: var(--card-bg, #1e293b);
     flex-direction: column;
     align-items: stretch;
-    padding: 1.5rem;
-    gap: 0.75rem;
-    border-bottom: 1px solid var(--border-color, #334155);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    padding: 0.75rem;
+    gap: 0.35rem;
+    border: 1px solid var(--border-color, #334155);
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.5);
 
     /* Efecto colapsado inicial */
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    opacity: 0;
+    transform: translateY(-0.5rem);
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
+    pointer-events: none;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0.2s;
   }
 
-  /* Clase activa que despliega el menú (la podés alternar con JS si querés menú hamburguesa funcional) */
+  /* Clase activa que despliega el menú */
   .navbar-links.active {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
+    transform: translateY(0);
     visibility: visible;
+    pointer-events: auto;
   }
 
   .navbar-links li a {
     display: block;
-    text-align: center;
-    padding: 0.75rem;
+    text-align: left;
+    padding: 0.8rem 0.9rem;
     font-size: 1rem;
   }
 }

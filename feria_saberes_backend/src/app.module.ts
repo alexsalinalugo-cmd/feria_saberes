@@ -12,6 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 import { ReportesModule } from './reportes/reportes.module';
 import { AdministracionModule } from './administracion/administracion.module';
+import { SeedService } from './seed.service';
 @Module({
   imports: [
     JwtModule.register({}),
@@ -27,6 +28,7 @@ import { AdministracionModule } from './administracion/administracion.module';
   ],
   controllers: [],
   providers: [
+    SeedService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

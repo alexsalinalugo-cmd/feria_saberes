@@ -62,8 +62,7 @@ export const apiFetch = async (url, options = {}) => {
           window.location.pathname.includes("/pages/admin/admin.html") ||
           window.location.pathname.includes("/pages/usuarios/usuario.html");
         if (!protectedPage) return response;
-        window.location.href =
-          "/feria_saberes_frontend/src/pages/auth/auth.html";
+        window.location.href = "/src/pages/auth/auth.html";
       }
     }
   }

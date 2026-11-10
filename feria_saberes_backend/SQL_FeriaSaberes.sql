@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Division (
     anio VARCHAR(50) NOT NULL,              -- Ej: "7mo", "1ro"
     ciclo ENUM('Basico', 'Superior') NOT NULL,           -- Ej: "Basico", "Superior"
     division VARCHAR(50) NULL,              -- Ej: "2da", "A" o NULL si no aplica
-    orientacion ENUM('electricidad', 'informatica') NOT NULL -- Ej: 'informatica'
+    orientacion ENUM('Informatica', 'Electricidad') NULL
 );
 
 -- 2. Tabla: Usuarios (Gestiona los accesos al panel de administración o sistema)
@@ -26,6 +26,9 @@ CREATE TABLE IF NOT EXISTS Proyectos (
     valoracion INT DEFAULT 0,
     division_id INT NOT NULL,               -- FK que apunta a Division.id (Ej: 1)
     usuario_id INT NULL,                    -- Usuario líder; NULL para proyectos históricos
+	activo BOOLEAN NOT NULL DEFAULT TRUE,
+    motivo_baja TEXT NULL,
+    hora_baja TIME NULL,
     FOREIGN KEY (division_id) REFERENCES Division(id) ON DELETE CASCADE,
     CONSTRAINT proyectos_ibfk_usuario
         FOREIGN KEY (usuario_id) REFERENCES Usuarios(id) ON DELETE SET NULL,

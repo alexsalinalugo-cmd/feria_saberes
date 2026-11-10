@@ -66,7 +66,8 @@ export class ReportesService {
       if (c.created_at) {
         const h = new Date(c.created_at).getHours();
         const claveHora = `${String(h).padStart(2, '0')}:00 - ${String(h + 1).padStart(2, '0')}:00 hs`;
-        conteoHoras[claveHora] = (conteoHoras[claveHora] || 0) + (c.integrantes || 1);
+        conteoHoras[claveHora] =
+          (conteoHoras[claveHora] || 0) + (c.integrantes || 1);
       }
     }
 
@@ -119,9 +120,15 @@ export class ReportesService {
         },
       }),
       this.prisma.proyectos.findMany({
+        orderBy: [{ valoracion: 'desc' }, { id: 'asc' }],
         select: {
+          id: true,
+          titulo: true,
+          valoracion: true,
           division: {
             select: {
+              anio: true,
+              division: true,
               orientacion: true,
               ciclo: true,
             },
@@ -139,6 +146,19 @@ export class ReportesService {
       Basico: 0,
       Superior: 0,
     };
+    const masVotadoPorCiclo: Record<
+      'Basico' | 'Superior',
+      | {
+          id: number;
+          titulo: string;
+          valoracion: number;
+          division: string;
+        }
+      | null
+    > = {
+      Basico: null,
+      Superior: null,
+    };
 
     proyectosPorDivision.forEach((p) => {
       if (p.division?.orientacion) {
@@ -147,6 +167,22 @@ export class ReportesService {
       }
       if (p.division?.ciclo) {
         porCiclo[p.division.ciclo] = (porCiclo[p.division.ciclo] || 0) + 1;
+        const ciclo = p.division.ciclo;
+
+        if (
+          ciclo === 'Basico' ||
+          ciclo === 'Superior'
+        ) {
+          const ganadorActual = masVotadoPorCiclo[ciclo];
+          if (!ganadorActual || (p.valoracion ?? 0) > ganadorActual.valoracion) {
+            masVotadoPorCiclo[ciclo] = {
+              id: p.id,
+              titulo: p.titulo,
+              valoracion: p.valoracion ?? 0,
+              division: `${p.division.anio} "${p.division.division || ''}" - ${p.division.orientacion || 'Sin orientación'}`,
+            };
+          }
+        }
       }
     });
 
@@ -185,6 +221,7 @@ export class ReportesService {
         })),
         porOrientacion,
         porCiclo,
+        masVotadoPorCiclo,
       },
       comunidad: {
         totalExpositores,

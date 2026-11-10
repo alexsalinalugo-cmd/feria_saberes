@@ -57,4 +57,50 @@ describe('ReportesService', () => {
     expect(result.proyectos.totalProyectos).toBe(8);
     expect(result.comunidad.totalExpositores).toBe(20);
   });
+
+  it('should return the most voted project for each school cycle', async () => {
+    mockPrismaService.proyectos.findMany
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([
+        {
+          id: 1,
+          titulo: 'Proyecto Básico',
+          valoracion: 7,
+          division: {
+            anio: '2do',
+            division: 'A',
+            orientacion: 'Informatica',
+            ciclo: 'Basico',
+          },
+        },
+        {
+          id: 2,
+          titulo: 'Proyecto Superior',
+          valoracion: 12,
+          division: {
+            anio: '5to',
+            division: 'B',
+            orientacion: 'Electricidad',
+            ciclo: 'Superior',
+          },
+        },
+      ]);
+
+    const result = await service.getDashboardReportes();
+
+    expect(result.proyectos.masVotadoPorCiclo).toEqual({
+      Basico: {
+        id: 1,
+        titulo: 'Proyecto Básico',
+        valoracion: 7,
+        division: '2do "A" - Informatica',
+      },
+      Superior: {
+        id: 2,
+        titulo: 'Proyecto Superior',
+        valoracion: 12,
+        division: '5to "B" - Electricidad',
+      },
+    });
+  });
 });

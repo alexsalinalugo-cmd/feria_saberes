@@ -50,6 +50,18 @@ const spotlightTitle = document.getElementById("spotlight-title");
 const spotlightDivision = document.getElementById("spotlight-division");
 const spotlightVotes = document.getElementById("spotlight-votes");
 const spotlightExpositores = document.getElementById("spotlight-expositores");
+const cycleWinnerElements = {
+  Basico: {
+    title: document.getElementById("basico-winner-title"),
+    division: document.getElementById("basico-winner-division"),
+    votes: document.getElementById("basico-winner-votes"),
+  },
+  Superior: {
+    title: document.getElementById("superior-winner-title"),
+    division: document.getElementById("superior-winner-division"),
+    votes: document.getElementById("superior-winner-votes"),
+  },
+};
 
 const barInfoVal = document.getElementById("bar-info-val");
 const barInfoFill = document.getElementById("bar-info-fill");
@@ -310,6 +322,8 @@ function renderLegend(porCategoria, totalPersonas) {
 function renderModuloProyectos(proyectos) {
   if (!proyectos) return;
 
+  renderGanadoresPorCiclo(proyectos.masVotadoPorCiclo);
+
   const top = proyectos.proyectoMasValorado;
   if (top) {
     if (spotlightTitle) spotlightTitle.textContent = top.titulo;
@@ -355,6 +369,24 @@ function renderModuloProyectos(proyectos) {
   if (barSuperiorVal)
     barSuperiorVal.textContent = `${superiorCount} (${superiorPct}%)`;
   if (barSuperiorFill) barSuperiorFill.style.width = `${superiorPct}%`;
+}
+
+function renderGanadoresPorCiclo(ganadores = {}) {
+  for (const ciclo of ["Basico", "Superior"]) {
+    const elementos = cycleWinnerElements[ciclo];
+    const proyecto = ganadores[ciclo];
+
+    if (elementos.title) {
+      elementos.title.textContent = proyecto?.titulo || "Sin proyectos";
+    }
+    if (elementos.division) {
+      elementos.division.textContent =
+        proyecto?.division || "No hay proyectos en este ciclo";
+    }
+    if (elementos.votes) {
+      elementos.votes.textContent = `${proyecto?.valoracion || 0} votos`;
+    }
+  }
 }
 
 /**

@@ -17,11 +17,11 @@ model checkin {
 }
 
 model division {
-  id          Int                  @id @default(autoincrement())
-  anio        String               @db.VarChar(50)
+  id          Int                   @id @default(autoincrement())
+  anio        String                @db.VarChar(50)
   ciclo       division_ciclo
-  division    String?              @db.VarChar(50)
-  orientacion division_orientacion
+  division    String?               @db.VarChar(50)
+  orientacion division_orientacion?
   proyectos   proyectos[]
 }
 
@@ -51,6 +51,9 @@ model proyectos {
   valoracion         Int?                 @default(0)
   division_id        Int
   usuario_id         Int?
+  activo             Boolean              @default(true)
+  motivo_baja        String?              @db.Text
+  hora_baja          DateTime?            @db.Time(0)
   expositores        expositores[]
   imagenes_proyectos imagenes_proyectos[]
   division           division             @relation(fields: [division_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "proyectos_ibfk_1")
@@ -87,11 +90,6 @@ enum checkin_categoria {
   otro
 }
 
-enum division_orientacion {
-  electricidad
-  informatica
-}
-
 enum usuarios_rol {
   admin
   usuario
@@ -100,4 +98,9 @@ enum usuarios_rol {
 enum division_ciclo {
   Basico
   Superior
+}
+
+enum division_orientacion {
+  Informatica
+  Electricidad
 }

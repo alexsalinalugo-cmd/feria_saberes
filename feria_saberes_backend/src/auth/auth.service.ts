@@ -25,17 +25,17 @@ export class AuthService {
     }
     // aca cuando completemos lo de registro hay que comparar con la contraseña encrirptada que la desencriptamos con la libreria
     // bcrypt y asi comparamos con las q nos envian pero x ahora asi no mas medio asi
-    //   const isPasswordValid = await bcrypt.compare(
-    //   logindto.password, // Lo que escribió el usuario en el login
-    //   user.password_hash, // El hash guardado en la base de datos
-    // );
+    const isPasswordValid = await bcrypt.compare(
+      logindto.password, // Lo que escribió el usuario en el login
+      user.contrasena, // El hash guardado en la base de datos
+    );
 
-    // // 3. Si la contraseña no coincide, lanzamos el error
-    // if (!isPasswordValid) {
-    //   throw new UnauthorizedException(
-    //     'Credenciales inválidas o usuario inactivo',
-    //   );
-    // }
+    // 3. Si la contraseña no coincide, lanzamos el error
+    if (!isPasswordValid) {
+      throw new UnauthorizedException(
+        'Credenciales inválidas o usuario inactivo',
+      );
+    }
 
     const payload = {
       sub: user.id,
