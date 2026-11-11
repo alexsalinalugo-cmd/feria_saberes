@@ -7,6 +7,8 @@ services:
       MARIADB_USER: ${DB_USER:?Set DB_USER in .env}
       MARIADB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:3306:3306"
     volumes:
       - feria_saberes_db:/var/lib/mysql
     healthcheck:
@@ -24,15 +26,7 @@ services:
     build:
       context: ./feria_saberes_backend
       target: build
-    command:
-      [
-        "npx",
-        "prisma",
-        "db",
-        "push",
-        "--config",
-        "prisma7.config.ts",
-      ]
+    command: ["npx", "prisma", "db", "push", "--config", "prisma7.config.ts"]
     environment:
       DATABASE_URL: mysql://${DB_USER:?Set DB_USER in .env}:${DB_PASSWORD:?Set DB_PASSWORD in .env}@db:3306/${DB_NAME:?Set DB_NAME in .env}
     depends_on:
