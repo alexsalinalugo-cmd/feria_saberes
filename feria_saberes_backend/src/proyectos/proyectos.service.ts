@@ -153,6 +153,7 @@ export class ProyectosService {
 
   findAll() {
     return this.prisma.proyectos.findMany({
+      where: { activo: true },
       include: {
         division: true,
         imagenes_proyectos: true,
