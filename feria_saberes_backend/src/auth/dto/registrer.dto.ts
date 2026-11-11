@@ -1,11 +1,12 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class registrerdto {
   @IsString()
   @IsNotEmpty({ message: 'La contraseña es requerida' })
-  contraseña!: string;
+  password!: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'el nombre es requerido' })
+  @IsNotEmpty({ message: 'El nombre es requerido' })
+  @Length(1, 100, { message: 'El nombre debe tener entre 1 y 100 caracteres' })
   nombre!: string;
 }

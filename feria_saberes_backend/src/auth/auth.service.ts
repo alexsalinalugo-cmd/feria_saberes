@@ -102,28 +102,38 @@ export class AuthService {
     }
   }
   async registrer(usuario: registrerdto) {
-    const VerificarUsuario = await this.prisma.usuarios.findUnique({
+    const nombre = usuario.nombre.trim();
+    if (!nombre) {
+      throw new BadRequestException('El nombre es requerido');
+    }
+
+    const usuarioExistente = await this.prisma.usuarios.findUnique({
       where: {
-        nombre: usuario.nombre,
+        nombre,
       },
     });
-    if (VerificarUsuario)
+    if (usuarioExistente)
       throw new BadRequestException(
-        `Ya tenés estas registrado ${VerificarUsuario?.nombre}.`,
+        `El usuario ${usuarioExistente.nombre} ya está registrado.`,
       );
-    const saltRounds = 10;
-    const contraseñaEncriptada = await bcrypt.hash(
-      usuario.contraseña,
-      saltRounds,
-    );
-    const usuarioNuevo = await this.prisma.usuarios.createMany({
+
+    const contrasenaEncriptada = await bcrypt.hash(usuario.password, 10);
+    const usuarioNuevo = await this.prisma.usuarios.create({
       data: {
-        nombre: usuario.nombre,
-        contrasena: contraseñaEncriptada,
+        nombre,
+        contrasena: contrasenaEncriptada,
+        rol: 'usuario',
+      },
+      select: {
+        id: true,
+        nombre: true,
+        rol: true,
       },
     });
+
     return {
       mensaje: 'Usuario registrado exitosamente',
+      user: usuarioNuevo,
     };
   }
 }

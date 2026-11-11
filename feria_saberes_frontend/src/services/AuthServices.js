@@ -30,12 +30,10 @@ export class AuthServices {
     });
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      // Lanzamos un error que contenga la estructura exacta que manda NestJS
-      throw {
-        response: {
-          data: errorData,
-        },
-      };
+      const message = Array.isArray(errorData.message)
+        ? errorData.message.join(". ")
+        : errorData.message;
+      throw new Error(message || "No se pudo crear la cuenta.");
     }
     return response.json();
   }

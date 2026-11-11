@@ -62,7 +62,7 @@ export class AuthController {
     reply.clearCookie('refresh_token', { path: '/auth' });
     return { message: 'Sesión cerrada correctamente' };
   }
-  @Public() // este hay que sacar porque el registro lo hacen los admins
+  @Public()
   @Post('registrer')
   async registrer(@Body() usuario: registrerdto) {
     return this.authService.registrer(usuario);

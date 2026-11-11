@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Iniciar Sesión</title>
+    <title>Ingresar | Feria de Saberes</title>
     <link rel="stylesheet" href="./auth.css" />
-
     <link rel="stylesheet" href="../../assets/css/global.css" />
     <link rel="stylesheet" href="../../components/navbar.css" />
   </head>
@@ -13,10 +12,10 @@
     <div id="navbar-placeholder"></div>
 
     <main class="auth-container">
-      <form id="login-form" class="auth-card" novalidate>
+      <form id="auth-form" class="auth-card" novalidate>
         <div class="auth-header">
-          <h2>Bienvenido</h2>
-          <p>Ingresá tus credenciales para acceder</p>
+          <h1 id="auth-title">Bienvenido</h1>
+          <p id="auth-description">Ingresá tus credenciales para acceder</p>
         </div>
 
         <div class="form-group">
@@ -26,8 +25,9 @@
             id="nombre"
             name="nombre"
             placeholder="Ingresá tu nombre"
+            autocomplete="username"
+            maxlength="100"
             required
-            autocomplete="name"
           />
           <span class="error-message" id="nombre-error"></span>
         </div>
@@ -38,19 +38,24 @@
             type="password"
             id="password"
             name="password"
-            placeholder="••••••••"
-            required
+            placeholder="Ingresá tu contraseña"
             autocomplete="current-password"
+            required
           />
           <span class="error-message" id="password-error"></span>
         </div>
 
         <button type="submit" id="btn-submit" class="btn-primary">
           <span class="btn-text">Ingresar</span>
-          <span class="spinner hidden"></span>
+          <span class="spinner hidden" aria-hidden="true"></span>
         </button>
 
         <div id="auth-alert" class="alert hidden" role="alert"></div>
+
+        <p class="auth-switch">
+          <span id="auth-switch-prompt">¿Todavía no tenés cuenta?</span>
+          <button type="button" id="btn-toggle-mode">Crear una cuenta</button>
+        </p>
       </form>
     </main>
 
