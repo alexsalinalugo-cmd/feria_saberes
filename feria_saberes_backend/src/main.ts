@@ -40,8 +40,12 @@ async function bootstrap() {
     secret: process.env.JWT_REFRESH_SECRET, // Usa tu clave secreta para firmar las cookies si querés
   });
   const isProduction = process.env.NODE_ENV === 'production';
+  const corsOrigins = (process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
   app.enableCors({
-    origin: isProduction ? ['https://dominio.com.ar'] : true,
+    origin: isProduction ? corsOrigins : true,
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],

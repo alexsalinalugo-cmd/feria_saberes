@@ -51,7 +51,7 @@ export class AuthServices {
     } catch (error) {
       console.error("No se pudo cerrar la sesión:", error);
     } finally {
-      window.location.href = "/src/pages/landing/index.html";
+      window.location.href = "/index.html";
     }
   }
 }
