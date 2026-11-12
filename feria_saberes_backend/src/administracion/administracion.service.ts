@@ -113,7 +113,7 @@ export class AdministracionService {
         anio: datos.anio,
         ciclo: datos.ciclo,
         division: datos.division,
-        orientacion: datos.orientacion,
+        orientacion: datos.orientacion ? datos.orientacion : null,
       },
     });
   }

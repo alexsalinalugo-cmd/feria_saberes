@@ -84,8 +84,9 @@ async function cargarUsuarios() {
         const campoContrasena = document.getElementById("usuario-contrasena");
         campoContrasena.value = "";
         campoContrasena.required = false;
-        formUsuario.querySelector('label[for="usuario-contrasena"]').textContent =
-          "Nueva contraseña (opcional)";
+        formUsuario.querySelector(
+          'label[for="usuario-contrasena"]',
+        ).textContent = "Nueva contraseña (opcional)";
         campoContrasena.placeholder =
           "Dejá vacío para conservar la contraseña actual";
 
@@ -216,7 +217,7 @@ formDivision.addEventListener("submit", async (event) => {
     ciclo: document.getElementById("division-ciclo").value,
     division:
       document.getElementById("division-nombre").value.trim() || undefined,
-    orientacion: document.getElementById("division-orientacion").value,
+    orientacion: document.getElementById("division-orientacion").value || null,
   };
 
   divisionFeedback.textContent = "Registrando Division...";
@@ -306,7 +307,8 @@ formUsuario.addEventListener("submit", async (event) => {
 
   try {
     if (usuarioEditandoId !== null) {
-      const nuevaContrasena = document.getElementById("usuario-contrasena").value;
+      const nuevaContrasena =
+        document.getElementById("usuario-contrasena").value;
       if (nuevaContrasena) {
         usuario.contrasena = nuevaContrasena;
       }
